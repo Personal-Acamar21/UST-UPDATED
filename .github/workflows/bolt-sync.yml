@@ -1,0 +1,37 @@
+name: Bolt.new Sync
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Build
+        run: npm run build
+        
+      - name: Deploy to Bolt.new
+        env:
+          BOLT_TOKEN: ${{ secrets.BOLT_TOKEN }}
+        run: |
+          curl -X POST "https://bolt.new/api/sync" \
+            -H "Authorization: Bearer ${{ secrets.BOLT_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "repository": "${{ github.repository }}",
+              "branch": "${{ github.ref_name }}",
+              "commit": "${{ github.sha }}"
+            }'
