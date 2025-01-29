@@ -20,7 +20,7 @@ const videos: Video[] = [
     id: '2',
     title: 'Tournament Recap',
     thumbnail: 'https://storage.googleapis.com/msgsndr/AKZP7FbfcOPsLo93Ayuw/media/67981276b67a21abdb08487c.png',
-    embedUrl: 'https://www.canva.com/design/DAGdgpOjhHg/view-design/watch?embed'
+    embedUrl: 'https://www.canva.com/design/DAGdh_Oc-2E/iS9zHnh1qIq0v6b3-qXY3w/watch?embed'
   }
 ];
 
