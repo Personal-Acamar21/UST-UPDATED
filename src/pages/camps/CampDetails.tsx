@@ -93,7 +93,7 @@ export default function CampDetails({
               </div>
               <div className="flex items-center">
                 <Phone className="h-5 w-5 text-[#8ED204] mr-3" />
-                <a href="tel:631-506-6567" className="hover:text-[#8ED204]">631-506-6567</a>
+                <a href="tel:631-506-6557" className="hover:text-[#8ED204]">631-506-6557</a>
               </div>
             </div>
 
