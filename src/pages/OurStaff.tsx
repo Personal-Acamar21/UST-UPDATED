@@ -3,20 +3,67 @@ import React from 'react';
 export default function OurStaff() {
   const staff = [
     {
-      name: "Coach Kozy",
-      role: "Technical Director",
+      name: "KOZY IKWUAZOM",
+      role: "Head Coach – Academy General Manager",
+      credentials: "United Soccer Coach License",
+      experience: "5+ years"
+    },
+    {
+      name: "ZACK OGOO",
+      role: "Head Coach – Academy Technical Director",
+      credentials: "United Soccer Coach License",
+      experience: "5+ years"
+    },
+    {
+      name: "ALEC ADECLAT",
+      role: "Head Coach – Academy Technical Director",
+      credentials: "United Soccer Coach License",
+      experience: "5+ years"
+    },
+     {
+      name: "JOSHUA ALLEN",
+      role: "Staff Coach – Boys & Girls",
       credentials: "United Soccer Coach License",
       experience: "4+ years"
     },
     {
-      name: "Coach Zack",
-      role: "Head Coach - Elite Academy",
+      name: "JASON ALVAREZ",
+      role: "Staff Coach – Boys & Girls",
       credentials: "United Soccer Coach License",
       experience: "4+ years"
     },
-    {
-      name: "Coach Alec",
-      role: "Head Coach - Youth Development",
+    { name: "JASON ALVAREZ",
+      role: "Staff Coach – Boys & Girls",
+      credentials: "United Soccer Coach License",
+      experience: "4+ years"
+    },
+    { name: "CHRIS LEIDNER",
+      role: "Staff Coach – Boys & Girls",
+      credentials: "United Soccer Coach License",
+      experience: "4+ years"
+    },
+    { name: "JORGE RODRIGUEZ",
+      role: "Staff Coach – Boys & Girls",
+      credentials: "United Soccer Coach License",
+      experience: "4+ years"
+    },
+    { name: "KRISTINA GAMBINO",
+      role: "Staff Coach – Boys & Girls",
+      credentials: "United Soccer Coach License",
+      experience: "4+ years"
+    },
+    { name: "PHIL IACONO",
+      role: "Goalkeeper Coach – Boys & Girls",
+      credentials: "United Soccer Coach License",
+      experience: "4+ years"
+    },
+    { name: "MATTHEW IMBROSCIANO",
+      role: "Coach & Equipment Director – Boys & Girls",
+      credentials: "United Soccer Coach License",
+      experience: "4+ years"
+    },
+     { name: "JOE OGOO",
+      role: "Staff Coach – Boys & Girls",
       credentials: "United Soccer Coach License",
       experience: "4+ years"
     }
