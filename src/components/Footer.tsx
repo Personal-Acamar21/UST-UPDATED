@@ -25,10 +25,26 @@ export default function Footer() {
           <div>
             <h3 className="font-semibold text-[#8ED204] mb-4">MEMBERS SUPPORT</h3>
             <ul className="space-y-2 text-sm">
-              <li><Link to="/help" className="hover:text-[#8ED204]">HELP CENTER</Link></li>
-              <li><Link to="/uniform-policy" className="hover:text-[#8ED204]">UNIFORM RETURN POLICY</Link></li>
-              <li><Link to="/track-order" className="hover:text-[#8ED204]">TRACK YOUR ORDER</Link></li>
-              <li><Link to="/uniform-guide" className="hover:text-[#8ED204]">HANDLING UNIFORM</Link></li>
+              <li>
+                <a 
+                  href="https://diaza.com/pages/term-and-conditions" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="hover:text-[#8ED204]"
+                >
+                  UNIFORM RETURN POLICY
+                </a>
+              </li>
+              <li>
+                <a 
+                  href="https://diaza.com/pages/term-and-conditions" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="hover:text-[#8ED204]"
+                >
+                  TRACK YOUR ORDER
+                </a>
+              </li>
             </ul>
           </div>
 
@@ -63,8 +79,6 @@ export default function Footer() {
             <ul className="space-y-2 text-sm">
               <li><Link to="/terms" className="hover:text-[#8ED204]">TERMS OF USE</Link></li>
               <li><Link to="/privacy" className="hover:text-[#8ED204]">PRIVACY POLICY</Link></li>
-              <li><Link to="/warranty" className="hover:text-[#8ED204]">WARRANTY</Link></li>
-              <li><Link to="/refund" className="hover:text-[#8ED204]">REFUND POLICY</Link></li>
               <li><Link to="/disclaimer" className="hover:text-[#8ED204]">DISCLAIMER</Link></li>
               <li><Link to="/code-of-conduct" className="hover:text-[#8ED204]">CODE OF CONDUCT</Link></li>
             </ul>
