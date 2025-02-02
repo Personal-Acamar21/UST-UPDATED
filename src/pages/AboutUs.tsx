@@ -1,6 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
-import VideoPreview from '../components/VideoPreview';
+import VideoPlaylist from '../components/VideoPlaylist';
 
 export default function AboutUs() {
   return (
@@ -30,10 +30,7 @@ export default function AboutUs() {
             </div>
           </div>
           <div>
-            <VideoPreview 
-              thumbnailUrl="https://storage.googleapis.com/msgsndr/AKZP7FbfcOPsLo93Ayuw/media/673bd75015ee065bf0b64cad.png"
-              videoId="BTbdAt0BGyn4aotfPy6wTw"
-            />
+            <VideoPlaylist />
             <div className="grid grid-cols-2 gap-4 mt-6">
               <div className="bg-[#8ED204] p-4 rounded-lg text-center">
                 <div className="text-3xl font-bold text-black">300+</div>
