@@ -28,9 +28,9 @@ export default function CozyFeet() {
       {/* Hero Image */}
       <div className="relative h-[500px] mb-12 rounded-xl overflow-hidden">
         <img 
-          src="https://storage.googleapis.com/msgsndr/AKZP7FbfcOPsLo93Ayuw/media/67535e8029695afe6d6d515d.png"
+          src="https://storage.googleapis.com/msgsndr/AKZP7FbfcOPsLo93Ayuw/media/67981b1e4f0aeb178d5e554a.jpeg"
           alt="Kids playing soccer"
-          className="w-full h-full object-cover object-top"
+          className="w-full h-full object-contain bg-gray-100"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent">
           <div className="absolute bottom-0 left-0 p-8">
@@ -63,9 +63,9 @@ export default function CozyFeet() {
           </div>
           <div className="aspect-[4/3] rounded-lg overflow-hidden">
             <img 
-              src="https://storage.googleapis.com/msgsndr/AKZP7FbfcOPsLo93Ayuw/media/67535e8029695afe6d6d515d.png"
+              src="https://storage.googleapis.com/msgsndr/AKZP7FbfcOPsLo93Ayuw/media/67981b1e4f0aeb178d5e554a.jpeg"
               alt="Kids playing"
-              className="w-full h-full object-cover object-top"
+              className="w-full h-full object-contain bg-gray-100"
             />
           </div>
         </div>
