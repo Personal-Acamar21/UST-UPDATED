@@ -1,26 +1,36 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
-import { useEvents } from '../lib/cms';
-import EventCard from '../components/Events/EventCard';
-import EventHero from '../components/Events/EventHero';
-import LoadingSpinner from '../components/LoadingSpinner';
+import Button from '../components/Button';
 
-const heroImages = [
-  "https://storage.googleapis.com/msgsndr/AKZP7FbfcOPsLo93Ayuw/media/6753588243cf56d1942f2f63.png",
-  "https://storage.googleapis.com/msgsndr/AKZP7FbfcOPsLo93Ayuw/media/67521955fc9c33b3d4f43995.png",
-  "https://storage.googleapis.com/msgsndr/AKZP7FbfcOPsLo93Ayuw/media/67521955fc9c3327f8f43994.png"
+const events = [
+  {
+    id: 'winter-skill-clinic',
+    title: 'Winter Skill Clinic',
+    image: 'https://storage.googleapis.com/msgsndr/AKZP7FbfcOPsLo93Ayuw/media/67521955fc9c33b3d4f43995.png',
+    path: '/winter-skill-clinic'
+  },
+  {
+    id: 'winter-intramural',
+    title: 'Winter Intramural Training',
+    image: 'https://storage.googleapis.com/msgsndr/AKZP7FbfcOPsLo93Ayuw/media/67521955fc9c3327f8f43994.png',
+    path: '/winter-intramural-training'
+  },
+  {
+    id: 'residential-camp',
+    title: '2025 UST Summer Residential Camp',
+    image: 'https://storage.googleapis.com/msgsndr/AKZP7FbfcOPsLo93Ayuw/media/6797d61807196a3c586b03a9.png',
+    path: '/camps/residential-camp-2025'
+  },
+  {
+    id: 'intense-summer',
+    title: '2025 Intense Summer Camp Series',
+    image: 'https://storage.googleapis.com/msgsndr/AKZP7FbfcOPsLo93Ayuw/media/6797e87abebf1264ad8556fd.png',
+    path: '/camps/intense-summer-2025'
+  }
 ];
 
 export default function Events() {
-  const { data: events = [], isLoading, error } = useEvents();
-
-  if (isLoading) return <LoadingSpinner size="large" />;
-  if (error) return <div>Error loading events</div>;
-
-  const upcomingEvents = events.filter(event => event.status === 'upcoming')
-    .sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
-
   return (
     <>
       <Helmet>
@@ -28,9 +38,7 @@ export default function Events() {
         <meta name="description" content="Join our upcoming soccer events, tournaments, camps, and clinics at UST Soccer Academy." />
       </Helmet>
 
-      <EventHero images={heroImages} />
-
-      <div className="container mx-auto px-4 pb-16">
+      <div className="container mx-auto px-4 py-16">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -42,18 +50,34 @@ export default function Events() {
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {upcomingEvents.map((event, index) => (
-            <EventCard key={event.id} event={event} index={index} />
+        <div className="grid md:grid-cols-2 gap-8">
+          {events.map((event, index) => (
+            <motion.div
+              key={event.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1 }}
+              className="bg-white rounded-lg shadow-lg overflow-hidden flex flex-col"
+            >
+              <div className="relative aspect-[3/4] w-full">
+                <img
+                  src={event.image}
+                  alt={event.title}
+                  className="w-full h-full object-contain"
+                />
+              </div>
+              <div className="p-6 mt-auto">
+                <h2 className="text-xl font-bold mb-4">{event.title}</h2>
+                <Button
+                  to={event.path}
+                  className="w-full bg-[#8ED204] text-black px-6 py-3 rounded-lg hover:bg-[#8ED204]/90 text-center"
+                >
+                  Learn More & Register
+                </Button>
+              </div>
+            </motion.div>
           ))}
         </div>
-
-        {upcomingEvents.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-xl text-gray-600">No upcoming events at the moment.</p>
-            <p className="text-gray-500">Please check back later or contact us for more information.</p>
-          </div>
-        )}
       </div>
     </>
   );
