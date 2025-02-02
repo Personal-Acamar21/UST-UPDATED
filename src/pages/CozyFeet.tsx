@@ -2,35 +2,35 @@ import React from 'react';
 import { Users, Star, Shield } from 'lucide-react';
 import Button from '../components/Button';
 
-export default function CozyFeet() {
-  const features = [
-    {
-      icon: <Users className="h-8 w-8 text-[#8ED204]" />,
-      title: "Age-Appropriate Training",
-      description: "Specially designed programs for children ages 2-7"
-    },
-    {
-      icon: <Star className="h-8 w-8 text-[#8ED204]" />,
-      title: "Fun Learning Environment",
-      description: "Games and activities that make learning soccer enjoyable"
-    },
-    {
-      icon: <Shield className="h-8 w-8 text-[#8ED204]" />,
-      title: "Safe Development",
-      description: "Focus on proper technique and gradual skill building"
-    }
-  ];
+const features = [
+  {
+    icon: <Users className="h-8 w-8 text-[#8ED204]" />,
+    title: "Age-Appropriate Training",
+    description: "Specially designed programs for children ages 2-7"
+  },
+  {
+    icon: <Star className="h-8 w-8 text-[#8ED204]" />,
+    title: "Fun Learning Environment",
+    description: "Games and activities that make learning soccer enjoyable"
+  },
+  {
+    icon: <Shield className="h-8 w-8 text-[#8ED204]" />,
+    title: "Safe Development",
+    description: "Focus on proper technique and gradual skill building"
+  }
+];
 
+export default function CozyFeet() {
   return (
     <div className="container mx-auto px-4 py-16">
       <h1 className="text-4xl font-bold mb-8">Cozy Feet Intramural Program</h1>
       
       {/* Hero Image */}
-      <div className="relative h-96 mb-12 rounded-xl overflow-hidden">
+      <div className="relative h-[500px] mb-12 rounded-xl overflow-hidden">
         <img 
           src="https://storage.googleapis.com/msgsndr/AKZP7FbfcOPsLo93Ayuw/media/67535e8029695afe6d6d515d.png"
           alt="Kids playing soccer"
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover object-top"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent">
           <div className="absolute bottom-0 left-0 p-8">
@@ -54,16 +54,20 @@ export default function CozyFeet() {
       {/* Image Gallery */}
       <div className="grid md:grid-cols-2 gap-8 mb-12">
         <div className="space-y-8">
-          <img 
-            src="https://storage.googleapis.com/msgsndr/AKZP7FbfcOPsLo93Ayuw/media/67535e8029695afe6d6d515d.png"
-            alt="Indoor training"
-            className="rounded-lg shadow-lg w-full h-64 object-cover"
-          />
-          <img 
-            src="https://storage.googleapis.com/msgsndr/AKZP7FbfcOPsLo93Ayuw/media/67535e8029695afe6d6d515d.png"
-            alt="Kids playing"
-            className="rounded-lg shadow-lg w-full h-64 object-cover"
-          />
+          <div className="aspect-[4/3] rounded-lg overflow-hidden">
+            <img 
+              src="https://storage.googleapis.com/msgsndr/AKZP7FbfcOPsLo93Ayuw/media/67535e8029695afe6d6d515d.png"
+              alt="Indoor training"
+              className="w-full h-full object-cover object-top"
+            />
+          </div>
+          <div className="aspect-[4/3] rounded-lg overflow-hidden">
+            <img 
+              src="https://storage.googleapis.com/msgsndr/AKZP7FbfcOPsLo93Ayuw/media/67535e8029695afe6d6d515d.png"
+              alt="Kids playing"
+              className="w-full h-full object-cover object-top"
+            />
+          </div>
         </div>
         <div className="bg-gray-50 rounded-lg p-8">
           <h2 className="text-2xl font-bold mb-4">Program Details</h2>
