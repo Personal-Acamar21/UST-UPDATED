@@ -1,163 +1,137 @@
-import React from 'react';
-import { Helmet } from 'react-helmet-async';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Star, Bell, Calendar } from 'lucide-react';
-import NewsletterSignup from '../components/NewsletterSignup';
-import { Link } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { showSuccess, showError } from '../utils/toast';
 
-const newsletters = [
-  {
-    title: "March 2024 Newsletter",
-    date: "March 1, 2024",
-    highlights: [
-      "Spring Season Registration Now Open",
-      "Elite Training Program Launch",
-      "Player Spotlight: Sarah Johnson",
-      "Upcoming Spring Break Camp Details"
-    ],
-    image: "https://storage.googleapis.com/msgsndr/AKZP7FbfcOPsLo93Ayuw/media/673b8a9115ee066c37b605ad.png",
-    content: `
-      Spring Season Registration
-      Registration for our Spring 2024 season is now open! Early bird discounts available until March 15th. Programs available for all age groups from Cozy Feet to Elite Academy.
+const newsletterSchema = z.object({
+  firstName: z.string().min(2, 'First name must be at least 2 characters'),
+  email: z.string().email('Please enter a valid email address'),
+  interests: z.array(z.string()).min(1, 'Please select at least one interest')
+});
 
-      Elite Training Program Launch
-      We're excited to announce our new Elite Training Program, designed for advanced players looking to take their game to the next level. Professional coaching staff, advanced tactical training, and personalized development plans.
+type NewsletterFormData = z.infer<typeof newsletterSchema>;
 
-      Player Spotlight
-      Congratulations to Sarah Johnson for her outstanding performance at the State Championships. Sarah's dedication and hard work exemplify the UST spirit!
+export default function NewsletterSignup() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { register, handleSubmit, formState: { errors }, reset } = useForm<NewsletterFormData>({
+    resolver: zodResolver(newsletterSchema)
+  });
 
-      Spring Break Camp
-      Don't miss our intensive Spring Break Camp (April 1-5). Limited spots available. Early registration recommended.
-    `
-  },
-  {
-    title: "February 2024 Newsletter",
-    date: "February 1, 2024",
-    highlights: [
-      "Winter Indoor League Results",
-      "College Signing Day Celebration",
-      "New Training Facility Updates",
-      "Coach of the Month: Mike Thompson"
-    ],
-    image: "https://storage.googleapis.com/msgsndr/AKZP7FbfcOPsLo93Ayuw/media/673bd75015ee065bf0b64cad.png",
-    content: `
-      Winter Indoor League Success
-      Congratulations to all teams on a successful Winter Indoor League season. Special mention to our U14 boys and U16 girls teams for reaching the finals!
+  const onSubmit = async (data: NewsletterFormData) => {
+    setIsSubmitting(true);
+    try {
+      const scriptUrl = new URL('https://script.google.com/macros/s/AKfycbybLXMXyYStDksN0EE4Mv-BKJUefQswxrf8EuK0LVBbDzKbZ1516Paf8l8X7Qz2zs3x/exec');
+      
+      // Add data as URL search params
+      const params = new URLSearchParams();
+      params.append('firstName', data.firstName);
+      params.append('email', data.email);
+      params.append('interests', data.interests.join(', '));
+      
+      const response = await fetch(`${scriptUrl.toString()}?${params.toString()}`, {
+        method: 'GET',
+        mode: 'no-cors'
+      });
 
-      College Signing Day
-      Proud moment for UST Academy as five of our players signed with Division 1 colleges. We wish them continued success in their academic and athletic careers.
-
-      Facility Updates
-      Our new indoor training facility is now complete with state-of-the-art equipment and technology. Book your training session today!
-
-      Coach Spotlight
-      Coach Mike Thompson has been named Coach of the Month for his outstanding work with our youth development program.
-    `
-  }
-];
-
-export default function Newsletter() {
-  const registrationUrl = "https://ustsoccer.demosphere-secure.com/_registration_login?to=https%3A%2F%2Fustsoccer.demosphere-secure.com%2F_registration%23registrant";
+      showSuccess('Successfully subscribed to newsletter!');
+      reset();
+    } catch (error) {
+      showError('Failed to subscribe. Please try again later.');
+      console.error('Newsletter signup error:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
-    <>
-      <Helmet>
-        <title>Newsletter - UST Soccer Academy</title>
-        <meta name="description" content="Stay updated with UST Soccer Academy's latest news, events, and announcements through our newsletter." />
-      </Helmet>
-
-      <div className="container mx-auto px-4 py-16">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-12"
-        >
-          <h1 className="text-4xl font-bold mb-4">UST Academy Newsletter</h1>
-          <p className="text-xl text-gray-600">
-            Stay connected with the latest updates from UST Soccer Academy
-          </p>
-        </motion.div>
-
-        <div className="grid md:grid-cols-3 gap-8">
-          {/* Newsletter Archive */}
-          <div className="md:col-span-2 space-y-8">
-            {newsletters.map((newsletter, index) => (
-              <motion.article
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                className="bg-white rounded-lg shadow-lg overflow-hidden"
-              >
-                <img
-                  src={newsletter.image}
-                  alt={newsletter.title}
-                  className="w-full h-48 object-cover"
-                />
-                <div className="p-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <h2 className="text-2xl font-bold">{newsletter.title}</h2>
-                    <span className="text-gray-500">{newsletter.date}</span>
-                  </div>
-                  <div className="mb-6">
-                    <h3 className="font-semibold text-[#8ED204] mb-2">Highlights</h3>
-                    <ul className="space-y-2">
-                      {newsletter.highlights.map((highlight, idx) => (
-                        <li key={idx} className="flex items-center">
-                          <Star className="h-4 w-4 text-[#8ED204] mr-2" />
-                          {highlight}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div className="prose max-w-none">
-                    {newsletter.content.split('\n\n').map((paragraph, idx) => (
-                      <p key={idx} className="mb-4">{paragraph}</p>
-                    ))}
-                  </div>
-                </div>
-              </motion.article>
-            ))}
-          </div>
-
-          {/* Sidebar */}
-          <div className="space-y-8">
-            {/* Newsletter Signup */}
-            <div className="bg-black rounded-lg p-6">
-              <div className="flex items-center mb-4">
-                <Mail className="h-6 w-6 text-[#8ED204] mr-2" />
-                <h2 className="text-xl font-bold text-white">Subscribe</h2>
-              </div>
-              <p className="text-gray-300 mb-6">
-                Get the latest news and updates delivered to your inbox monthly.
-              </p>
-              <NewsletterSignup />
-            </div>
-
-            {/* Quick Links */}
-            <div className="bg-white rounded-lg p-6 shadow-lg">
-              <h3 className="font-bold mb-4">Quick Links</h3>
-              <ul className="space-y-2">
-                <li>
-                  <Link to="/events" className="flex items-center text-gray-600 hover:text-[#8ED204]">
-                    <Calendar className="h-4 w-4 mr-2" />
-                    Upcoming Events
-                  </Link>
-                </li>
-                <li>
-                  <a 
-                    href={registrationUrl}
-                    className="flex items-center text-gray-600 hover:text-[#8ED204]"
-                  >
-                    <Bell className="h-4 w-4 mr-2" />
-                    Register Now
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="bg-gray-900 p-6 rounded-lg"
+    >
+      <div className="text-white mb-6">
+        <h3 className="text-xl font-bold mb-2">Stay Connected</h3>
+        <p className="text-gray-300">
+          Subscribe to our newsletter for the latest updates, events, and exclusive content.
+        </p>
       </div>
-    </>
+
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <div>
+          <input
+            type="text"
+            placeholder="First Name"
+            {...register('firstName')}
+            className="w-full px-4 py-2 rounded-lg bg-gray-800 text-white border border-gray-700 focus:border-[#8ED204] focus:ring-1 focus:ring-[#8ED204]"
+            disabled={isSubmitting}
+          />
+          {errors.firstName && (
+            <p className="text-red-500 text-sm mt-1">{errors.firstName.message}</p>
+          )}
+        </div>
+
+        <div>
+          <input
+            type="email"
+            placeholder="Email Address"
+            {...register('email')}
+            className="w-full px-4 py-2 rounded-lg bg-gray-800 text-white border border-gray-700 focus:border-[#8ED204] focus:ring-1 focus:ring-[#8ED204]"
+            disabled={isSubmitting}
+          />
+          {errors.email && (
+            <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+          )}
+        </div>
+
+        <div>
+          <p className="text-white mb-2">I'm interested in:</p>
+          <div className="space-y-2">
+            <label className="flex items-center space-x-2 text-white">
+              <input
+                type="checkbox"
+                value="youth-programs"
+                {...register('interests')}
+                className="form-checkbox text-[#8ED204]"
+                disabled={isSubmitting}
+              />
+              <span>Youth Programs</span>
+            </label>
+            <label className="flex items-center space-x-2 text-white">
+              <input
+                type="checkbox"
+                value="camps"
+                {...register('interests')}
+                className="form-checkbox text-[#8ED204]"
+                disabled={isSubmitting}
+              />
+              <span>Camps & Clinics</span>
+            </label>
+            <label className="flex items-center space-x-2 text-white">
+              <input
+                type="checkbox"
+                value="events"
+                {...register('interests')}
+                className="form-checkbox text-[#8ED204]"
+                disabled={isSubmitting}
+              />
+              <span>Events & Tournaments</span>
+            </label>
+          </div>
+          {errors.interests && (
+            <p className="text-red-500 text-sm mt-1">{errors.interests.message}</p>
+          )}
+        </div>
+
+        <button
+          type="submit"
+          disabled={isSubmitting}
+          className="w-full bg-[#8ED204] text-black py-2 rounded-lg font-semibold hover:bg-[#8ED204]/90 transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {isSubmitting ? 'Subscribing...' : 'Subscribe'}
+        </button>
+      </form>
+    </motion.div>
   );
 }
