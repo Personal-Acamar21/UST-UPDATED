@@ -22,21 +22,34 @@ export default function NewsletterSignup() {
   const onSubmit = async (data: NewsletterFormData) => {
     setIsSubmitting(true);
     try {
-      const scriptUrl = new URL('https://script.google.com/macros/s/AKfycbybLXMXyYStDksN0EE4Mv-BKJUefQswxrf8EuK0LVBbDzKbZ1516Paf8l8X7Qz2zs3x/exec');
+      const scriptUrl = 'https://script.google.com/macros/s/AKfycbybLXMXyYStDksN0EE4Mv-BKJUefQswxrf8EuK0LVBbDzKbZ1516Paf8l8X7Qz2zs3x/exec';
       
-      // Add data as URL search params
-      const params = new URLSearchParams();
-      params.append('firstName', data.firstName);
-      params.append('email', data.email);
-      params.append('interests', data.interests.join(', '));
-      
-      const response = await fetch(`${scriptUrl.toString()}?${params.toString()}`, {
-        method: 'GET',
-        mode: 'no-cors'
+      // Create the data object in the format expected by the Apps Script
+      const postData = {
+        firstName: data.firstName,
+        email: data.email,
+        interests: data.interests
+      };
+
+      const response = await fetch(scriptUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'text/plain;charset=utf-8',
+        },
+        body: JSON.stringify(postData)
       });
 
-      showSuccess('Successfully subscribed to newsletter!');
-      reset();
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const result = await response.json();
+      if (result.status === 'success') {
+        showSuccess('Successfully subscribed to newsletter!');
+        reset();
+      } else {
+        throw new Error(result.message || 'Failed to subscribe');
+      }
     } catch (error) {
       showError('Failed to subscribe. Please try again later.');
       console.error('Newsletter signup error:', error);
