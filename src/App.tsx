@@ -73,6 +73,12 @@ const App: React.FC = () => {
             <Route path="/winter-intramural-training" element={<WinterIntramuralTraining />} />
             <Route path="/financial-aid" element={<FinancialAid />} />
             
+            {/* Policy Routes */}
+            <Route path="/terms" element={<Terms />} />
+            <Route path="/privacy" element={<Privacy />} />
+            <Route path="/disclaimer" element={<Disclaimer />} />
+            <Route path="/code-of-conduct" element={<CodeOfConduct />} />
+            
             {/* Camp Routes */}
             <Route path="/camps/residential-camp-2025" element={<ResidentialCamp2025 />} />
             <Route path="/camps/spring-break-2024" element={<SpringBreakCamp2024 />} />
