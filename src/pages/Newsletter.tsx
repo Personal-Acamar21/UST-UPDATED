@@ -1,150 +1,177 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { showSuccess, showError } from '../utils/toast';
+import { Calendar, Star, Bell } from 'lucide-react';
+import NewsletterSignup from '../components/NewsletterSignup';
+import { Link } from 'react-router-dom';
 
-const newsletterSchema = z.object({
-  firstName: z.string().min(2, 'First name must be at least 2 characters'),
-  email: z.string().email('Please enter a valid email address'),
-  interests: z.array(z.string()).min(1, 'Please select at least one interest')
-});
+const newsletters = [
+ 
+  {
+    title: "February 2025 Newsletter",
+    date: "February 1, 2025",
+    highlights: [
+      "Winter Indoor League Higlights and Results",
+      "2025 Camps & Clinics Details",
+      "New Training Facility Updates",
+      "Coach of the Month: Coach Kozy",
+      "Pro Game Day: NY City FC vs Inter Miami",
+      "Player Spotlights: Player of The Month"
+    ],
+    image: "https://storage.googleapis.com/msgsndr/AKZP7FbfcOPsLo93Ayuw/media/673bd75015ee065bf0b64cad.png",
+    content: `
+      Subject: Introducing the New UST Soccer Academy Website & Exciting Upcoming Events
 
-type NewsletterFormData = z.infer<typeof newsletterSchema>;
+Dear UST Soccer Academy Members,
 
-export default function NewsletterSignup() {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const { register, handleSubmit, formState: { errors }, reset } = useForm<NewsletterFormData>({
-    resolver: zodResolver(newsletterSchema)
-  });
+We are thrilled to announce the launch of our newly redesigned website. Built with the latest technologies—React, TypeScript, and Tailwind CSS—our new website offers an enhanced user experience designed with you in mind.
 
-  const onSubmit = async (data: NewsletterFormData) => {
-    setIsSubmitting(true);
-    try {
-      const scriptUrl = 'https://script.google.com/macros/s/AKfycbybLXMXyYStDksN0EE4Mv-BKJUefQswxrf8EuK0LVBbDzKbZ1516Paf8l8X7Qz2zs3x/exec';
+Key Features:
+
+Our website features a comprehensive Programs & Training section, offering detailed information about our Youth Development Programs, Elite Training Programs, Cozy Feet Program for ages 2-7, and various upcoming Camps & Clinics.
+
+The integrated Event Management system ensures you never miss an important date, with an Upcoming Events Calendar, an Online Registration System, detailed Event Schedules, and automated Registration Confirmations.
+
+A dynamic Content Management system keeps you updated with the latest News, and our Newsletter System ensures you're always in the loop. Real-time Form Validation and Interactive Components further enhance the user experience.
+
+Winter Indoor League Success
+
+Congratulations to all teams on a successful UST Winter IndoorTournament. Special mention to our U10 boys and U12 girls teams for reaching the finals!
       
-      // Create the data object in the format expected by the Apps Script
-      const postData = {
-        firstName: data.firstName,
-        email: data.email,
-        interests: data.interests
-      };
+Upcoming Events:
 
-      const response = await fetch(scriptUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'text/plain;charset=utf-8',
-        },
-        body: JSON.stringify(postData)
-      });
+Spring Break Camp (April 14th-17th): This camp is a great opportunity for our young players to refine their skills, boost their game IQ, and train with top-tier coaches during the spring break.
 
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
+UST Intense Summer Camps Series (Registration is Live!): Our summer camps provide elite training and a fun environment for players. Secure your spot today for camps running on:
 
-      const result = await response.json();
-      if (result.status === 'success') {
-        showSuccess('Successfully subscribed to newsletter!');
-        reset();
-      } else {
-        throw new Error(result.message || 'Failed to subscribe');
-      }
-    } catch (error) {
-      showError('Failed to subscribe. Please try again later.');
-      console.error('Newsletter signup error:', error);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+June 30 - July 3
 
+July 28 - July 31
+
+August 4 - August 7
+
+August 25 - August 28 
+
+Burr Winkle Park, Commack NY.
+
+2025 UST Residential Camp: 
+
+July 19th - 26th 
+
+Join us for an unforgettable experience at the beautiful Venue of Lake George.
+
+Exclusive UST Ticket Offer: 
+
+As a UST Academy member, you have the exclusive opportunity to purchase discounted tickets for the NYCFC vs. Inter Miami match.
+
+September 2025
+NYFC vs inter Miami
+Time: TBD
+
+We're proud to launch a site that not only looks great but also makes it easier for you to access the information you need. We invite you to visit our new website and explore our exciting range of programs and events.
+
+Looking forward to seeing you on the field,
+
+UST Soccer Academy Team
+    `
+  }
+];
+
+export default function Newsletter() {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="bg-gray-900 p-6 rounded-lg"
-    >
-      <div className="text-white mb-6">
-        <h3 className="text-xl font-bold mb-2">Stay Connected</h3>
-        <p className="text-gray-300">
-          Subscribe to our newsletter for the latest updates, events, and exclusive content.
-        </p>
-      </div>
+    <>
+      <Helmet>
+        <title>Newsletter - UST Soccer Academy</title>
+        <meta name="description" content="Stay updated with UST Soccer Academy's latest news, events, and announcements through our newsletter." />
+      </Helmet>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        <div>
-          <input
-            type="text"
-            placeholder="First Name"
-            {...register('firstName')}
-            className="w-full px-4 py-2 rounded-lg bg-gray-800 text-white border border-gray-700 focus:border-[#8ED204] focus:ring-1 focus:ring-[#8ED204]"
-            disabled={isSubmitting}
-          />
-          {errors.firstName && (
-            <p className="text-red-500 text-sm mt-1">{errors.firstName.message}</p>
-          )}
-        </div>
-
-        <div>
-          <input
-            type="email"
-            placeholder="Email Address"
-            {...register('email')}
-            className="w-full px-4 py-2 rounded-lg bg-gray-800 text-white border border-gray-700 focus:border-[#8ED204] focus:ring-1 focus:ring-[#8ED204]"
-            disabled={isSubmitting}
-          />
-          {errors.email && (
-            <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
-          )}
-        </div>
-
-        <div>
-          <p className="text-white mb-2">I'm interested in:</p>
-          <div className="space-y-2">
-            <label className="flex items-center space-x-2 text-white">
-              <input
-                type="checkbox"
-                value="youth-programs"
-                {...register('interests')}
-                className="form-checkbox text-[#8ED204]"
-                disabled={isSubmitting}
-              />
-              <span>Youth Programs</span>
-            </label>
-            <label className="flex items-center space-x-2 text-white">
-              <input
-                type="checkbox"
-                value="camps"
-                {...register('interests')}
-                className="form-checkbox text-[#8ED204]"
-                disabled={isSubmitting}
-              />
-              <span>Camps & Clinics</span>
-            </label>
-            <label className="flex items-center space-x-2 text-white">
-              <input
-                type="checkbox"
-                value="events"
-                {...register('interests')}
-                className="form-checkbox text-[#8ED204]"
-                disabled={isSubmitting}
-              />
-              <span>Events & Tournaments</span>
-            </label>
-          </div>
-          {errors.interests && (
-            <p className="text-red-500 text-sm mt-1">{errors.interests.message}</p>
-          )}
-        </div>
-
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className="w-full bg-[#8ED204] text-black py-2 rounded-lg font-semibold hover:bg-[#8ED204]/90 transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+      <div className="container mx-auto px-4 py-16">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-center mb-12"
         >
-          {isSubmitting ? 'Subscribing...' : 'Subscribe'}
-        </button>
-      </form>
-    </motion.div>
+          <h1 className="text-4xl font-bold mb-4">UST Academy Newsletter</h1>
+          <p className="text-xl text-gray-600">
+            Stay connected with the latest updates from UST Soccer Academy
+          </p>
+        </motion.div>
+
+        <div className="grid md:grid-cols-3 gap-8">
+          {/* Newsletter Archive */}
+          <div className="md:col-span-2 space-y-8">
+            {newsletters.map((newsletter, index) => (
+              <motion.article
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+                className="bg-white rounded-lg shadow-lg overflow-hidden"
+              >
+                <img
+                  src={newsletter.image}
+                  alt={newsletter.title}
+                  className="w-full h-48 object-cover"
+                />
+                <div className="p-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <h2 className="text-2xl font-bold">{newsletter.title}</h2>
+                    <span className="text-gray-500">{newsletter.date}</span>
+                  </div>
+                  <div className="mb-6">
+                    <h3 className="font-semibold text-[#8ED204] mb-2">Highlights</h3>
+                    <ul className="space-y-2">
+                      {newsletter.highlights.map((highlight, idx) => (
+                        <li key={idx} className="flex items-center">
+                          <Star className="h-4 w-4 text-[#8ED204] mr-2" />
+                          {highlight}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div className="prose max-w-none">
+                    {newsletter.content.split('\n\n').map((paragraph, idx) => (
+                      <p key={idx} className="mb-4">{paragraph}</p>
+                    ))}
+                  </div>
+                </div>
+              </motion.article>
+            ))}
+          </div>
+
+          {/* Sidebar */}
+          <div className="space-y-8">
+            {/* Newsletter Signup */}
+            <div className="bg-black rounded-lg p-6">
+              <NewsletterSignup />
+            </div>
+
+            {/* Quick Links */}
+            <div className="bg-white rounded-lg p-6 shadow-lg">
+              <h3 className="font-bold mb-4">Quick Links</h3>
+              <ul className="space-y-2">
+                <li>
+                  <Link to="/events" className="flex items-center text-gray-600 hover:text-[#8ED204]">
+                    <Calendar className="h-4 w-4 mr-2" />
+                    Upcoming Events
+                  </Link>
+                </li>
+                <li>
+                  <a 
+                    href="https://ustsoccer.demosphere-secure.com/_registration"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center text-gray-600 hover:text-[#8ED204]"
+                  >
+                    <Bell className="h-4 w-4 mr-2" />
+                    Register Now
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
   );
 }
