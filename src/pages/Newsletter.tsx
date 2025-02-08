@@ -18,9 +18,9 @@ const newsletters = [
       "Pro Game Day: NY City FC vs Inter Miami",
       "Player Spotlights: Player of The Month"
     ],
-    image: "https://storage.googleapis.com/msgsndr/AKZP7FbfcOPsLo93Ayuw/media/673bd75015ee065bf0b64cad.png",
-    content: `
-      Subject: Introducing the New UST Soccer Academy Website & Exciting Upcoming Events
+    image: "https://storage.googleapis.com/msgsndr/AKZP7FbfcOPsLo93Ayuw/media/673bd75015ee065bf0b64cad.png"
+     
+    content: `Subject: Introducing the New UST Soccer Academy Website & Exciting Upcoming Events`
 
 Dear UST Soccer Academy Members,
 
