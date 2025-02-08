@@ -19,8 +19,8 @@ const newsletters = [
       "Player Spotlights: Player of The Month"
     ],
     image: "https://storage.googleapis.com/msgsndr/AKZP7FbfcOPsLo93Ayuw/media/673bd75015ee065bf0b64cad.png"
-     
-    content: `Subject: Introducing the New UST Soccer Academy Website & Exciting Upcoming Events`
+     '
+    content: "Subject: Introducing the New UST Soccer Academy Website & Exciting Upcoming Events"
 
 Dear UST Soccer Academy Members,
 
@@ -73,7 +73,7 @@ We're proud to launch a site that not only looks great but also makes it easier 
 Looking forward to seeing you on the field,
 
 UST Soccer Academy Team
-    `
+   '
   }
 ];
 
